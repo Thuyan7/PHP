@@ -87,4 +87,24 @@ class PostController extends Controller
         return view('postdetail', compact('post','user','amenities','posts','comments'));
     }
 
+    public function deletePost($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thực hiện chức năng này.');
+        }
+
+        $post = Post::find($id);
+
+        if (!$post || $post->user_id !== Auth::id()) {
+            return redirect()->route('profile')->with('error', 'Bạn không có quyền xóa bài đăng này.');
+        }
+
+        $post->delete();
+
+        return redirect()->route('profile')->with('success', 'Bài đăng đã được xóa thành công.');
+    }
+
+
+
+
 }

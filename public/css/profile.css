@@ -1,3 +1,16 @@
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff0000; /* Màu đỏ cho biểu tượng */
+    font-size: 18px; /* Kích thước biểu tượng */
+    margin-left: 10px; /* Khoảng cách giữa tiêu đề và nút xóa */
+    transition: color 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+.delete-btn:hover {
+    color: #cc0000; /* Màu đỏ đậm khi hover */
+}
 /* Profile Header Styles */
 .profile-header {
     display: flex;

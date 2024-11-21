@@ -10,15 +10,16 @@ class PublicController extends Controller
 {
     public function showPost()
     {
-        $posts = Post::with(['listImages','location'])
-            ->orderBy('created_at','desc')
+        $posts = Post::with(['listImages', 'location'])
+            ->where('approved', 1) // Chỉ lấy các bài viết đã được duyệt
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $user = Auth::user();
 
-        return view('post',compact('posts','user'));
-
+        return view('post', compact('posts', 'user'));
     }
+
 
     public function showIntroduce()
     {
@@ -46,5 +47,7 @@ class PublicController extends Controller
     {
         return view('register');
     }
+
+
 
 }

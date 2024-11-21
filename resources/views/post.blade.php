@@ -23,16 +23,16 @@
             <div class="col-12">
                 <div class="inner-head">
                     <div class="inner-logo">
-                        <a href="/user/home">
+                        <a href="{{ Auth::user()->role_id == 1 ? route('user-home') : route('admin-home') }}">
                             <img src="/image/logo.png" alt="logo">
                         </a>
                     </div>
                     <div class="inner-menu">
                         <ul class="menu">
-                            <li><a href="/user/home" class="active-menu">Trang Chủ</a></li>
-                            <li><a href="/introduce">Giới Thiệu</a></li>
-                            <li><a href="/post">Bài Đăng</a></li>
-                            <li><a href="/contact">Liên Hệ</a></li>
+                            <li><a href="{{route ('user-home')}}" class="active-menu">Trang Chủ</a></li>
+                            <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
+                            <li><a href="{{route('post')}}">Bài Đăng</a></li>
+                            <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
                         </ul>
                     </div>
                     <div class="user-dropdown">
@@ -42,7 +42,7 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a href="/user/profile">Quản Lí Cá Nhân</a></li>
+                            <li><a href="{{ Auth::user()->role_id == 1 ? route('user-home') : route('admin-home') }}">Quản Lí Cá Nhân</li>
                             <li><form action="/logout" method="post">
                                 <button type="submit">Đăng Xuất</button>
                             </form></li>
@@ -51,12 +51,12 @@
                     <div class="inner-menu-mb">
                         <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
                         <ul class="menu-mb">
-                            <li><a href="/user/home" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
-                            <li><a href="/introduce"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
-                            <li><a href="/post"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
-                            <li><a href="/contact"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
+                            <li><a href="{{route ('user-home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                            <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
+                            <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
+                            <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
                             <li class="item-action">
-                                <a href="/login">Đăng Nhập</a>
+                                <a href="{{route('login')}}">Đăng Nhập</a>
                                 <a href="/logout">Đăng Xuất</a>
                             </li>
                         </ul>

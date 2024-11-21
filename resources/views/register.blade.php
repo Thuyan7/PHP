@@ -52,7 +52,7 @@
                         <div class="inner-line"></div>
                         <div class="login">
                             <span>Bạn đã có tài khoản ?</span>
-                            <a href="/login" class="">Đăng nhập ở đây</a>
+                            <a href="{{route('login')}}" class="">Đăng nhập ở đây</a>
                         </div>
                     </form>
                 </div>

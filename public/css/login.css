@@ -5,11 +5,12 @@ img {
 .inner-back {
     color: var(--color2);
     position: absolute;
-    top: 9%;
+    top: 5%;
     left: 0;
     padding: 10px 15px;
     border: 2px solid var(--color2);
     border-radius: 50%;
+
 }
 
 .inner-back:active {
@@ -161,3 +162,4 @@ button,
     }
 
 }
+

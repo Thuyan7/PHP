@@ -46,9 +46,11 @@
                             <a href="/register" class="">Tạo tại đây</a>
                         </div>
                     </form>
+                    <div>
                     <a href="/home" class="inner-back">
                         <i class="fa-solid fa-arrow-left"></i>
                     </a>
+                    </div>
                 </div>
             </div>
         </div>

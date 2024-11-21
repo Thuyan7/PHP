@@ -58,7 +58,7 @@ html lang="en">
                             <li><a href="/admin/post-management"><i class="fa-solid fa-house"></i>Quản Lí Bài Đăng</a></li>
                             <li><a href="/admin/comment-management"><i class="fa-solid fa-house"></i>Quản Lí Bình Luận</a></li>
                             <li class="item-action">
-                                <a href="/login">Đăng Nhập</a>
+                                <a href="{{route('login')}}">Đăng Nhập</a>
                                 <a href="/logout">Đăng Xuất</a>
                             </li>
                         </ul>
@@ -179,7 +179,7 @@ html lang="en">
                             tảng trực tuyến tiện lợi, uy tín, nơi bạn có thể dễ dàng tra cứu thông tin chi tiết và
                             minh bạch về các phòng trọ đang cho thuê...
                         </p>
-                        <a href="/introduce" class="action btn">Tìm hiểu thêm</a>
+                        <a href="{{route ('introduce')}}" class="action btn">Tìm hiểu thêm</a>
                     </div>
                 </div>
             </div>
@@ -223,7 +223,7 @@ html lang="en">
         <div class="row">
             <div class="col-12">
                 <div class="text-center">
-                    <a href="/post" class="btn btn-seemore">Xem Thêm</a>
+                    <a href="{{route('post')}}" class="btn btn-seemore">Xem Thêm</a>
                 </div>
             </div>
         </div>
@@ -273,7 +273,7 @@ html lang="en">
             </div>
             <div class="modal-body text-center">
                 <p style="color: black;">Vui lòng đăng nhập để tiếp tục.</p>
-                <a href="/login" class="btn btn-primary">Đăng Nhập</a>
+                <a href="{{route('login')}}" class="btn btn-primary">Đăng Nhập</a>
             </div>
         </div>
     </div>

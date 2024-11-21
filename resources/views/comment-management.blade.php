@@ -56,7 +56,7 @@
               <li><a href="/admin/post-management"><i class="fa-solid fa-house"></i>Quản Lí Bài Đăng</a></li>
               <li><a href="/admin/comment-management"><i class="fa-solid fa-house"></i>Quản Lí Bình Luận</a></li>
               <li class="item-action">
-                <a href="/login">Đăng Nhập</a>
+                <a href="{{route('login')}}">Đăng Nhập</a>
                 <a href="/logout">Đăng Xuất</a>
               </li>
             </ul>

@@ -31,23 +31,23 @@ html lang="en">
           <div class="inner-menu">
             <ul class="menu">
               <li><a href="@{/home}" class="active-menu">Trang Chủ</a></li>
-              <li><a href="/introduce">Giới Thiệu</a></li>
-              <li><a href="/post">Bài Đăng</a></li>
-              <li><a href="/contact">Liên Hệ</a></li>
+              <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
+              <li><a href="{{route('post')}}">Bài Đăng</a></li>
+              <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
             </ul>
           </div>
           <div class="inner-action">
-            <a href="/login" class="btn-action">Đăng Nhập</a>
+            <a href="{{route('login')}}" class="btn-action">Đăng Nhập</a>
           </div>
           <div class="inner-menu-mb">
             <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
             <ul class="menu-mb">
               <li><a href="@{/hom}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
-              <li><a href="/introduce"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
-              <li><a href="/post"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
-              <li><a href="/contact"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
+              <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
+              <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
+              <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
               <li class="item-action">
-                <a href="/login">Đăng Nhập</a>
+                <a href="{{route('login')}}">Đăng Nhập</a>
                 <a href="/logout">Đăng Xuất</a>
               </li>
             </ul>
@@ -168,7 +168,7 @@ html lang="en">
               tảng trực tuyến tiện lợi, uy tín, nơi bạn có thể dễ dàng tra cứu thông tin chi tiết và
               minh bạch về các phòng trọ đang cho thuê...
             </p>
-            <a href="/introduce" class="action btn">Tìm hiểu thêm</a>
+            <a href="{{route ('introduce')}}" class="action btn">Tìm hiểu thêm</a>
           </div>
         </div>
       </div>
@@ -204,7 +204,7 @@ html lang="en">
             </div>
             <div class="inner-bot">
               <p class="inner-price" text="${post.price}"></p>
-              <a href="/login" class="btn">Xem Phòng</a>
+              <a href="{{route('login')}}" class="btn">Xem Phòng</a>
             </div>
           </div>
         </div>
@@ -214,7 +214,7 @@ html lang="en">
     <div class="row">
       <div class="col-12">
         <div class="text-center">
-          <a href="/post" class="btn btn-seemore">Xem Thêm</a>
+          <a href="{{route('post')}}" class="btn btn-seemore">Xem Thêm</a>
         </div>
       </div>
     </div>
@@ -242,7 +242,7 @@ html lang="en">
                             </span>
             </div>
             <p class="inner-comment" text="${comment.content}"></p>
-            <a href="/login" class="btn">Xem Bình Luận</a>
+            <a href="{{route('login')}}" class="btn">Xem Bình Luận</a>
           </div>
         </div>
       </div>
@@ -264,7 +264,7 @@ html lang="en">
       </div>
       <div class="modal-body text-center">
         <p style="color: black;">Vui lòng đăng nhập để tiếp tục.</p>
-        <a href="/login" class="btn btn-primary">Đăng Nhập</a>
+        <a href="{{route('login')}}" class="btn btn-primary">Đăng Nhập</a>
       </div>
     </div>
   </div>
@@ -330,17 +330,17 @@ html lang="en">
             </a>
           </p>
           <p>
-            <a href="/introduce">
+            <a href="{{route ('introduce')}}">
               Giới Thiệu
             </a>
           </p>
           <p>
-            <a href="/post">
+            <a href="{{route('post')}}">
               Bài Đăng
             </a>
           </p>
           <p>
-            <a href="/contact">
+            <a href="{{route ('contact')}}">
               Liên Hệ
             </a>
           </p>

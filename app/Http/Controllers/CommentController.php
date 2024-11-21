@@ -15,24 +15,37 @@ class CommentController extends Controller
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để bình luận.');
         }
 
-        // Kiểm tra các dữ liệu gửi lên từ form
         $request->validate([
             'rating' => 'required|integer|between:1,5',
             'content' => 'required|string|max:255',
             'postId' => 'required|exists:posts,id',
         ]);
 
-        // Tạo bình luận mới
-        $comment = new Comment();
-        $comment->content = $request->input('content');
-        $comment->rating = $request->input('rating');
-        $comment->post_id = $request->input('postId');
-        $comment->user_id = Auth::id();
-        $comment->approved = false;
+
+        $comment = Comment::create([
+            'content' => $request->input('content'),
+            'rating' => $request->input('rating'),
+            'post_id' => $request->input('postId'),
+            'user_id' => Auth::id(),
+            'approved' => false,
+        ]);
 
 
-        $comment->save();
         return redirect()->route('post.detail', ['id' => $comment->post_id])
             ->with('success', 'Bình luận của bạn đã được gửi. Chờ duyệt.');
     }
+
+    public function deleteComment($id)
+    {
+        $comment = Comment::find($id);
+
+        if (!$comment || $comment->user_id !== Auth::id()) {
+            return redirect()->route('profile')->with('error', 'Bạn không có quyền xóa comment này.');
+        }
+
+        $comment->delete();
+
+        return redirect()->route('profile')->with('success', 'Bài đăng đã được xóa thành công.');
+    }
+
 }

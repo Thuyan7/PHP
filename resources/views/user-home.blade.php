@@ -25,16 +25,16 @@
             <div class="col-12">
                 <div class="inner-head">
                     <div class="inner-logo">
-                        <a href="@{/user/home}">
+                        <a href="{{route ('user-home')}}">
                             <img src="/image/logo.png" alt="logo">
                         </a>
                     </div>
                     <div class="inner-menu">
                         <ul class="menu">
-                            <li><a href="/user/home" class="active-menu">Trang Chủ</a></li>
-                            <li><a href="/introduce">Giới Thiệu</a></li>
-                            <li><a href="/post">Bài Đăng</a></li>
-                            <li><a href="/contact">Liên Hệ</a></li>
+                            <li><a href="{{route ('user-home')}}" class="active-menu">Trang Chủ</a></li>
+                            <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
+                            <li><a href="{{route('post')}}">Bài Đăng</a></li>
+                            <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
                         </ul>
                     </div>
                     <div class="user-dropdown">
@@ -44,24 +44,21 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a href="/user/profile">Quản Lí Cá Nhân</a></li>
-                            <li><form action="/logout" method="post">
-                                    <button type="submit">Đăng Xuất</button>
-                                </form>
-                            </li>
+                            <li><a href="{{route ('user-profile')}}">Quản Lí Cá Nhân</a></li>
+                            <li><a href="{{route ('logout')}}">Quản Lí Cá Nhân</a></li>
                         </ul>
                     </div>
 
                     <div class="inner-menu-mb">
                         <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
                         <ul class="menu-mb">
-                            <li><a href="/user/home" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
-                            <li><a href="/introduce"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
-                            <li><a href="/post"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
-                            <li><a href="/contact"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
+                            <li><a href="{{route ('user-home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                            <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
+                            <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
+                            <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
                             <li class="item-action">
-                                <a href="/login">Đăng Nhập</a>
-                                <a href="/logout">Đăng Xuất</a>
+                                <a href="{{route('login')}}">Đăng Nhập</a>
+                                <a href="{{route('logout')}}">Đăng Xuất</a>
                             </li>
                         </ul>
                     </div>
@@ -175,7 +172,7 @@
                             tảng trực tuyến tiện lợi, uy tín, nơi bạn có thể dễ dàng tra cứu thông tin chi tiết và
                             minh bạch về các phòng trọ đang cho thuê...
                         </p>
-                        <a href="/introduce" class="action btn">Tìm hiểu thêm</a>
+                        <a href="{{route ('introduce')}}" class="action btn">Tìm hiểu thêm</a>
                     </div>
                 </div>
             </div>
@@ -188,7 +185,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="inner-head">
-                    <h2>Phòng Trọ</h2>
+                    <h2>Bài Đăng</h2>
                 </div>
             </div>
         </div>
@@ -227,7 +224,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-center">
-                    <a href="/post" class="btn btn-seemore">Xem Thêm</a>
+                    <a href="{{route('post')}}" class="btn btn-seemore">Xem Thêm</a>
                 </div>
             </div>
         </div>
@@ -246,18 +243,20 @@
         </div>
         <div class="wrapper">
             <div class="row carousel-comments">
-                <div class="card col-xl-4 col-lg-6 col-12" ="comment :${comments}">
+                @foreach($comments as $comment)
+                <div class="card col-xl-4 col-lg-6 col-12" >
                     <div class="inner-box">
-                        <h2 text="${comment.user.email}"></h2>
+                        <h2>{{$user->full_name}}</h2>
                         <div class="comment-rating">
-                            <span ="i : ${#numbers.sequence(0, 4)}">
-                             <i class="fa-star" class="${i < comment.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                            </span>
+                            @for ($i = 0; $i < 5; $i++)
+                                <i class="{{ $i < $comment->rating ? 'fas fa-star' : 'far fa-star' }}"></i>
+                            @endfor
                         </div>
-                        <p class="inner-comment" text="${comment.content}"></p>
-                        <a href="@{/post/detail/{id}(id=${comment.post.id})}" class="btn">Xem Bình Luận</a>
+                        <p class="inner-comment">{{$comment->content}}</p>
+                        <a href="{{ route('post.detail', ['id' => $comment->post_id]) }}" class="btn">Xem Bình Luận</a>
                     </div>
                 </div>
+                @endforeach
             </div>
             <div class="inner-btn">
                 <div class="btn-r btn-arrow"><i class="fa-solid fa-arrow-right btn-right"></i></div>
@@ -277,7 +276,7 @@
             </div>
             <div class="modal-body text-center">
                 <p style="color: black;">Vui lòng đăng nhập để tiếp tục.</p>
-                <a href="/login" class="btn btn-primary">Đăng Nhập</a>
+                <a href="{{route('login')}}" class="btn btn-primary">Đăng Nhập</a>
             </div>
         </div>
     </div>
@@ -338,22 +337,22 @@
                         TNNA
                     </h2>
                     <p>
-                        <a href="@{/user/home}">
+                        <a href="{{route('user-home')}}>
                             Trang chủ
                         </a>
                     </p>
                     <p>
-                        <a href="/introduce">
+                        <a href="{{route ('introduce')}}">
                             Giới Thiệu
                         </a>
                     </p>
                     <p>
-                        <a href="@{/post}">
+                        <a href="{{route('post')}}">
                             Bài Đăng
                         </a>
                     </p>
                     <p>
-                        <a href="@{/contact}">
+                        <a href="{{route('contact')}}">
                             Liên Hệ
                         </a>
                     </p>
