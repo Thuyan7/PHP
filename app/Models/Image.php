@@ -12,6 +12,7 @@ class Image extends Model
 
     public $timestamps = false;
 
+
     public function posts()
     {
         return $this->belongsTo(Post::class);

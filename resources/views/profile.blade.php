@@ -24,16 +24,16 @@
             <div class="col-12">
                 <div class="inner-head">
                     <div class="inner-logo">
-                        <a href="{{route ('user-home')}}">
+                        <a href="{{route ('user.home')}}" >
                             <img src="/image/logo.png" alt="logo">
                         </a>
                     </div>
                     <div class="inner-menu">
                         <ul class="menu">
-                            <li><a href="{{route ('user-home')}}" class="active-menu">Trang Chủ</a></li>
-                            <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
-                            <li><a href="{{route('post')}}">Bài Đăng</a></li>
-                            <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
+                            <li><a href="{{route ('user.home')}}" class="active-menu">Trang Chủ</a></li>
+                            <li><a href="{{route ('introduce')}}" class="active-menu">Giới Thiệu</a></li>
+                            <li><a href="{{route('post')}}" class="active-menu">Bài Đăng</a></li>
+                            <li><a href="{{route ('contact')}}" class="active-menu">Liên Hệ</a></li>
                         </ul>
                     </div>
                     <div class="user-dropdown">
@@ -43,23 +43,21 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route ('user-profile')}}">Quản Lí Cá Nhân</a></li>
-                            <li><form action="/logout" method="post">
-                                <button type="submit">Đăng Xuất</button>
-                            </form></li>
+                            <li><a href="{{route ('user.profile')}}">Quản Lí Cá Nhân</a></li>
+                            <li><a href="{{route ('logout')}}">Đăng Xuất</a></li>
                         </ul>
                     </div>
 
                     <div class="inner-menu-mb">
                         <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
                         <ul class="menu-mb">
-                            <li><a href="{{route ('user-home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                            <li><a href="{{route ('user.home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
                             <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
                             <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
                             <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
                             <li class="item-action">
                                 <a href="{{route('login')}}">Đăng Nhập</a>
-                                <a href="/logout">Đăng Xuất</a>
+                                <a href="{{route('logout')}}">Đăng Xuất</a>
                             </li>
                         </ul>
                     </div>
@@ -121,49 +119,64 @@
     <div class="post-container">
         <label>Danh Sách Bài Đăng Của Bạn</label>
         <div class="row">
-            @foreach ($posts as $post)
-            <div class="col-md-6 col-12" >
-                <div class="inner-box">
-                    @if ($post->listImages && $post->listImages->isNotEmpty())
-                    <div class="inner-img">
-                        <img src="{{ asset('storage/' . $post->listImages[0]->url) }}" alt="Post Image" class="image"/>
-                    </div>
+            @if ($posts && $posts->isNotEmpty())
+                @foreach ($posts as $post)
+                    @if ($post != null)
+                        <div class="col-md-6 col-12">
+                            <div class="inner-box">
+                                @if ($post->listImages && $post->listImages->isNotEmpty())
+                                    <div class="inner-img">
+                                        <img src="{{ asset('storage/' . $post->listImages[0]->url) }}" alt="Post Image" class="image"/>
+                                    </div>
+                                @endif
+                                <div class="inner-content">
+                                    <h3 class="title">{{ $post->title }}</h3>
+
+                                    <div class="button-wrapper">
+                                        <form action="{{ route('user.deletePost', ['id' => $post->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                        <div class="edit-button-wrapper">
+                                            <a href="{{route('user.updatePostForm',$post->id)}}">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    @if ($post->location && $post->location->link)
+                                        <a href="{{ $post->location->link }}" target="_blank" class="btn inner-location">
+                                            <i class="fa-solid fa-map-location"></i>
+                                            <p class="line-clamp" style="--line-clamp:1;">{{ $post->location->address }}</p>
+                                        </a>
+                                    @endif
+
+                                    <div class="inner-bot">
+                                        <p class="inner-price"><span>{{ number_format($post->price, 0, ',', '.') }}</span> VND</p>
+                                        <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="btn">Xem Bài</a>
+                                    </div>
+                                    <div>
+                                        <p class="post-status">{{ $post->approved ? 'Đã được duyệt' : 'Chưa được duyệt' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
-                    <div class="inner-content">
-                        <h3 class="title">{{$post->title}}</h3>
-                        <form action="{{ route('user.deletePost', ['id' => $post->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="hidden" name="_method" value="delete">
-                            <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </form>
-                    @if ($post->location && $post->location->link)
-                            <a href="{{ $post->location->link }}" target="_blank" class="btn inner-location">
-                            <i class="fa-solid fa-map-location"></i>
-                                <p class="line-clamp" style="--line-clamp:1;">{{ $post->location->address }}</p>
-                        </a>
-                        @endif
-                        <div class="inner-bot">
-                            <p class="inner-price"><span>{{ number_format($post->price, 0, ',', '.') }}</span> VND</p>
-                            <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="btn">Xem Phòng</a>
-                        </div>
-                        <div>
-                            <p class="post-status">{{ $post->approved ? 'Đã được duyệt' : 'Chưa được duyệt' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+                @endforeach
+            @else
+                <p class="no-posts-message">Bạn chưa có bài đăng nào.</p>
+            @endif
         </div>
     </div>
     <div class="comment">
         <label>Danh Sách Bình Luận Của Bạn</label>
-        @if($comments->isEmpty())
-            <p>Bạn chưa có bình luận nào.</p>
-        @else
-            <ul class="comments-list">
+        <ul class="comments-list">
+            @if ($comments->isEmpty())
+                <p class="no-comments-message">Bạn chưa có bình luận nào.</p>
+            @else
                 @foreach($comments as $comment)
                     <li class="comment-item">
                         <div class="comment-rating">
@@ -174,22 +187,21 @@
                         <div class="comment-content">
                             <p>{{ $comment->content }}</p>
                             <a href="{{ route('post.detail', ['id' => $comment->post_id]) }}" class="btn">Xem Bình Luận</a>
-                            <span class="comment-status">
-                            {{ $comment->approved ? 'Đã Được Duyệt' : 'Chưa Được Duyệt' }}
-                        </span>
-                            <form action="{{ route('user.deleteComment', ['id' => $comment->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="_method" value="delete">
-                                <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa comment này không?')">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </form>
+
+                            <div class="delete-wrapper">
+                                <form action="{{ route('user.deleteComment', ['id' => $comment->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa comment này không?')">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </li>
                 @endforeach
-            </ul>
-        @endif
+            @endif
+        </ul>
     </div>
 </div>
 </div>

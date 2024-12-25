@@ -795,7 +795,9 @@
 .comments {
     color: var(--color2);
     padding: 50px 0 100px;
+
 }
+
 
 .comments .inner-head {
     margin-bottom: 20px;

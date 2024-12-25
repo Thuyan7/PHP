@@ -4,7 +4,7 @@ html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang của NGOẠI LAI</title>
+  <title>Trang Của Khách</title>
   <link rel="icon" type="image/x-icon" href="/image/android-chrome-512x512.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -24,16 +24,16 @@ html lang="en">
       <div class="col-12">
         <div class="inner-head">
           <div class="inner-logo">
-            <a href="@{/home}">
+            <a href="{{route('home')}}">
               <img src="/image/logo.png" alt="logo">
             </a>
           </div>
           <div class="inner-menu">
             <ul class="menu">
-              <li><a href="@{/home}" class="active-menu">Trang Chủ</a></li>
-              <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
-              <li><a href="{{route('post')}}">Bài Đăng</a></li>
-              <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
+              <li><a href="{{route('home')}}" class="active-menu">Trang Chủ</a></li>
+              <li><a href="{{route ('introduce')}}" class="active-menu">Giới Thiệu</a></li>
+              <li><a href="{{route('post')}}" class="active-menu">Bài Đăng</a></li>
+              <li><a href="{{route ('contact')}}" class="active-menu">Liên Hệ</a></li>
             </ul>
           </div>
           <div class="inner-action">
@@ -42,13 +42,12 @@ html lang="en">
           <div class="inner-menu-mb">
             <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
             <ul class="menu-mb">
-              <li><a href="@{/hom}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+              <li><a href="{{route('home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
               <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
               <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
               <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
               <li class="item-action">
                 <a href="{{route('login')}}">Đăng Nhập</a>
-                <a href="/logout">Đăng Xuất</a>
               </li>
             </ul>
           </div>
@@ -71,7 +70,7 @@ html lang="en">
             </div>
           </div>
           <div class="item">
-            <img src="/image/art2.jpg" alt="ảnh 2">
+            <img src="/image/art2.png" alt="ảnh 2">
             <div class="content">
               <h3 class="title">Vị trí thuận tiện</h3>
             </div>
@@ -83,7 +82,7 @@ html lang="en">
             </div>
           </div>
           <div class="item">
-            <img src="/image/art2.jpg" alt="ảnh 4">
+            <img src="/image/art2.png" alt="ảnh 4">
             <div class="content">
               <h3 class="title">Chất lượng và tiện nghi</h3>
             </div>
@@ -175,83 +174,90 @@ html lang="en">
     </div>
   </div>
 </div>
-<!-- End Intro -->
-<!-- Phòng trọ -->
 <div class="room-rent">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="inner-head">
-          <h2>Bài Đăng</h2>
-        </div>
-      </div>
-    </div>
-    <div class="inner-body" >
-      <div class="btn-l-room-1 btn-arrow"><i class="fa-solid fa-arrow-left"></i></div>
-      <div class="row carousel-room-1" >
-        <div class="card col-xl-4 col-lg-6 col-12" ="post :${posts}">
-          <div class="inner-box">
-            <div class="inner-img" th:if="${post.listImages != null and !post.listImages.isEmpty()}">
-              <img src="@{'/' + ${post.listImages[0].url}}" alt="Image Description" class="image">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-head">
+                    <h2>Bài Đăng</h2>
+                </div>
             </div>
-            <p class="inner-title text-center" text="${post.title}"></p>
-            <div class="inner-location">
-              <a href="${post.location.link}"
-                 target="_blank">
-                <i class="fa-solid fa-map-location"></i>
-                <p text="${post.location.address}"></p>
-              </a>
-            </div>
-            <div class="inner-bot">
-              <p class="inner-price" text="${post.price}"></p>
-              <a href="{{route('login')}}" class="btn">Xem Phòng</a>
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="btn-r-room-1 btn-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="text-center">
-          <a href="{{route('post')}}" class="btn btn-seemore">Xem Thêm</a>
+        <div class="inner-body" >
+            <div class="btn-l-room-1 btn-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+            <div class="row carousel-room-1" >
+                @foreach ($posts as $post)
+                    <div class="card col-xl-4 col-lg-6 col-12">
+                        <div class="inner-box">
+                            @if ($post->listImages && $post->listImages->isNotEmpty())
+                                <div class="inner-img" >
+                                    <img src="{{ asset('storage/' . $post->listImages[0]->url) }}" alt="Post Image" class="image"/>
+                                </div>
+                            @endif
+                            <p class="inner-title text-center">{{ $post->title}}</p>
+                            @if ($post->location && $post->location->link)
+                                <div class="inner-location">
+                                    <a href="{{ $post->location->link }}" target="_blank" class="btn inner-location">
+                                        <i class="fa-solid fa-map-location"></i>
+                                        <p class="line-clamp" style="--line-clamp:1;">{{ $post->location->address }}</p>
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="inner-bot">
+                                <p class="inner-price">
+                                    <span>{{ number_format($post->price, 0, ',', '.') }}</span> VND
+                                </p>
+                                <a href="{{ route('login') }}" class="btn">Xem Phòng</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="btn-r-room-1 btn-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
-      </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <a href="{{route('post')}}" class="btn btn-seemore">Xem Thêm</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <div class="comments">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="inner-head text-center">
-          <h2 class="inner-title">
-            Bình luận của khách hàng
-          </h2>
-        </div>
-      </div>
-    </div>
-    <div class="wrapper">
-      <div class="row carousel-comments">
-        <div class="card col-xl-4 col-lg-6 col-12" ="comment :${comments}">
-          <div class="inner-box">
-            <h2 text="${comment.user.email}"></h2>
-            <div class="comment-rating">
-                            <span ="i : ${#numbers.sequence(0, 4)}">
-                             <i class="fa-star" th:class="${i < comment.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                            </span>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-head text-center">
+                    <h2 class="inner-title">
+                        Bình luận của khách hàng
+                    </h2>
+                </div>
             </div>
-            <p class="inner-comment" text="${comment.content}"></p>
-            <a href="{{route('login')}}" class="btn">Xem Bình Luận</a>
-          </div>
         </div>
-      </div>
-      <div class="inner-btn">
-        <div class="btn-r btn-arrow"><i class="fa-solid fa-arrow-right btn-right"></i></div>
-        <div class="btn-l btn-arrow"><i class="fa-solid fa-arrow-left btn-left"></i></div>
-      </div>
+        <div class="wrapper">
+            <div class="row carousel-comments">
+                @foreach($comments as $comment)
+                    <div class="card col-xl-4 col-lg-6 col-12" >
+                        <div class="inner-box" style="height: auto;min-height: 150px;">
+                            <h2>{{$comment->user->full_name}}</h2>
+                            <div class="comment-rating">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="{{ $i < $comment->rating ? 'fas fa-star' : 'far fa-star' }}"></i>
+                                @endfor
+                            </div>
+                            <p class="inner-comment">{{$comment->content}}</p>
+                            <a href="{{ route('login') }}" class="btn">Xem Bình Luận</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="inner-btn">
+                <div class="btn-r btn-arrow"><i class="fa-solid fa-arrow-right btn-right"></i></div>
+                <div class="btn-l btn-arrow"><i class="fa-solid fa-arrow-left btn-left"></i></div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -325,7 +331,7 @@ html lang="en">
             TNNA
           </h2>
           <p>
-            <a href="@{/home}">
+            <a href="{{route('home')}}">
               Trang chủ
             </a>
           </p>

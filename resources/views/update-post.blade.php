@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Bài</title>
+    <title>Cập Nhật Bài Đăng</title>
     <link rel="icon" type="image/x-icon" href="/image/android-chrome-512x512.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -78,12 +78,17 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('post.create') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('user.updatePost',$post->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
                     <div class="image-1 mb-3">
                         <div class="img-wrap" id="imgWrap">
+                            @foreach ($post->listImages as $image)
+                                <div class="img-container" style="display: inline-block; margin-right: 10px;">
+                                    <img src="{{ asset('storage/' . $image->url) }}" alt="Image" style="max-width: 150px; max-height: 150px;">
+                                </div>
+                            @endforeach
                         </div>
                         <div class="image-upload">
                             <label class="label-1" for="images">
@@ -95,50 +100,38 @@
                 </div>
                 <div class="col-md-6">
                     <div class="post-content mb-3">
-                        <label class="label-1" for="title">Nội dung đăng bài:</label>
-                        <input type="text" id="title" name="title" class="form-control" placeholder="Tiêu đề"
-                               required>
+                        <label class="label-1" for="title">Tiêu Đề:</label>
+                        <input type="text" id="title" name="title" value="{{ old('title', $post->title) }}" class="form-control" placeholder="Tiêu đề ">
                     </div>
 
                     <div class="price mb-3">
                         <label class="label-1" for="price">Giá:</label>
-                        <input type="text" id="price" name="price" class="form-control" placeholder="Giá" required>
+                        <input type="text" id="price" name="price" value="{{old('price', $post->price)}}" class="form-control" placeholder="Giá">
                     </div>
 
                     <div class="description mb-3">
                         <label class="label-1" for="description">Miêu tả:</label>
                         <textarea id="description" name="description" class="form-control" placeholder="Miêu tả"
-                                  rows="3" required></textarea>
+                                  rows="3" required>{{old('description', $post->description)}}</textarea>
                     </div>
                     <div class="address mb-3">
-                        <label class="label-1" for="streetAddress">Số nhà & Tên đường:</label>
-                        <input type="text" id="streetAddress" name="streetAddress" class="form-control" placeholder="Số nhà & Tên đường" required>
+                        <label class="label-1" for="address">Địa Chỉ:</label>
+                        <input type="text" id="address" name="address" value="{{old('address',$post->location->address)}}" class="form-control" placeholder="Địa Chỉ" >
                     </div>
-                    <div class="address mb-3">
-                        <label class="label-1" for="ward">Xã/Phường:</label>
-                        <input type="text" id="ward" name="ward" class="form-control" placeholder="Xã/Phường" required>
-                    </div>
-                    <div class="address mb-3">
-                        <label class="label-1" for="district">Huyện/Quận:</label>
-                        <input type="text" id="district" name="district" class="form-control" placeholder="Huyện/Quận" required>
-                    </div>
-                    <div class="address mb-3">
-                        <label class="label-1" for="city">Tỉnh/Thành phố:</label>
-                        <input type="text" id="city" name="city" class="form-control" placeholder="Tỉnh/Thành phố" required>
-                    </div>
-                    <div class="amenities mb-3" style="color:black">
-                        <label class="label-1">Tiện ích:</label>
-                        <ul>
+                    <div class="amenities mb-3" style="color: black">
+                        <label for="amenities">Tiện ích:</label>
+                        <div>
                             @foreach ($amenities as $amenity)
-                            <li>
-                                <input type="checkbox" name="amenities[]" value="{{ $amenity->id }}">
-                                <span>{{ $amenity->name }}</span>
-                            </li>
+                                <label>
+                                    <input type="checkbox" name="amenities[]" value="{{ $amenity->id }}"
+                                        {{ in_array($amenity->id, $post->amenities->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                    {{ $amenity->name }}
+                                </label>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
                     <div class="submit-button">
-                        <button type="submit" class="btn btn-primary">Đăng bài</button>
+                        <button type="submit" class="btn btn-primary">Cập Nhật Bài Đăng</button>
                     </div>
                 </div>
             </div>

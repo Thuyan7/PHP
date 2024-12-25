@@ -28,45 +28,51 @@
     <div class="row">
       <div class="col-12">
         <div class="inner-head">
-          <div class="inner-logo">
-            <a href="{{route ('user-home')}}">
-              <img src="/image/logo.png" alt="logo">
-            </a>
-          </div>
+            <div class="inner-logo">
+                <a href="{{ Auth::check() ? (Auth::user()->role_id == 1 ? route('user.home') : (Auth::user()->role_id == 2 ? route('admin.home') : route('home'))) : route('home') }}">
+                    <img src="/image/logo.png" alt="logo">
+                </a>
+            </div>
           <div class="inner-menu">
             <ul class="menu">
-              <li><a href="{{route ('user-home')}}" class="active-menu">Trang Chủ</a></li>
+              <li><a href="{{route ('user.home')}}" class="active-menu">Trang Chủ</a></li>
               <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
               <li><a href="{{route('post')}}">Bài Đăng</a></li>
               <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
             </ul>
           </div>
-          <div class="user-dropdown">
-            <div class="dropdown-toggle">
-              <i class="fa-solid fa-user"></i>
-              <span>{{$user->full_name}}</span>
-              <i class="fa-solid fa-chevron-down"></i>
+            @if(Auth::check() && Auth::user()->role_id)
+                <div class="user-dropdown">
+                    <div class="dropdown-toggle">
+                        <i class="fa-solid fa-user"></i>
+                        <span>{{ Auth::user()->full_name ?? '' }}</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ Auth::user()->role_id == 1 ? route('user.profile') : (Auth::user()->role_id == 2 ? route('admin.profile') : '#') }}">
+                                Quản Lí Cá Nhân
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}">Đăng Xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            @endif
+            <div class="inner-menu-mb">
+                <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
+                <ul class="menu-mb">
+                    <li><a href="{{ Auth::check() ? (Auth::user()->role_id == 1 ? route('user.home') : (Auth::user()->role_id == 2 ? route('admin.home') : route('home'))) : route('home') }}"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                    <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
+                    <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
+                    <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
+                    <li class="item-action">
+                        <a href="{{route('login')}}">Đăng Nhập</a>
+                        <a href="{{route('logout')}}">Đăng Xuất</a>
+                    </li>
+                </ul>
             </div>
-            <ul class="dropdown-menu">
-              <li><a href="{{route ('user-profile')}}">Quản Lí Cá Nhân</a></li>
-              <li><form action="/logout" method="post">
-                <button type="submit">Đăng Xuất</button>
-              </form></li>
-            </ul>
-          </div>
-          <div class="inner-menu-mb">
-            <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
-            <ul class="menu-mb">
-              <li><a href="{{route ('user-home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
-              <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
-              <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
-              <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
-              <li class="item-action">
-                <a href="{{route('login')}}">Đăng Nhập</a>
-                <a href="/logout">Đăng Xuất</a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -154,6 +160,15 @@
   </div>
 </div>
 <div class="container">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <h2>Bình luận</h2>
     <form action="{{ route('comment.store') }}" method="POST" class="comment-form">
         @csrf
@@ -174,7 +189,7 @@
         </div>
         <div class="form-group">
             <label for="content">Nội dung bình luận:</label>
-            <textarea id="content" name="content" rows="4" required placeholder="Nhập bình luận của bạn ở đây..."></textarea>
+            <textarea id="content" name="content" rows="4" placeholder="Nhập bình luận của bạn ở đây..."></textarea>
         </div>
         <input type="hidden" name="postId" value="{{ $post->id }}"/>
         <button type="submit" class="submit-comment">Gửi Bình Luận</button>
@@ -191,7 +206,7 @@
                 </div>
                 <div class="comment-content">
                     <p>{{ $comment->content }}</p>
-                    <p class="comment-author">- {{ $comment->user->email }}</p>
+                    <p class="comment-author">{{ $comment->user->full_name }}</p>
                 </div>
             </li>
             @endforeach

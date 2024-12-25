@@ -19,6 +19,9 @@ class CommentController extends Controller
             'rating' => 'required|integer|between:1,5',
             'content' => 'required|string|max:255',
             'postId' => 'required|exists:posts,id',
+        ],[
+            'rating.required'=>'Vui lòng đánh giá',
+            'content.required'=> 'Nội dung bình luận không được trống',
         ]);
 
 
@@ -38,14 +41,8 @@ class CommentController extends Controller
     public function deleteComment($id)
     {
         $comment = Comment::find($id);
-
-        if (!$comment || $comment->user_id !== Auth::id()) {
-            return redirect()->route('profile')->with('error', 'Bạn không có quyền xóa comment này.');
-        }
-
         $comment->delete();
-
-        return redirect()->route('profile')->with('success', 'Bài đăng đã được xóa thành công.');
+        return redirect()->route('user.profile')->with('success', 'Bài đăng đã được xóa thành công.');
     }
 
 }

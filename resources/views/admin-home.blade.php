@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-html lang="en">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -25,41 +25,39 @@ html lang="en">
             <div class="col-12">
                 <div class="inner-head">
                     <div class="inner-logo">
-                        <a href="@{/admin/home}">
+                        <a href="{{route ('admin.home')}}">
                             <img src="/image/logo.png" alt="logo">
                         </a>
                     </div>
                     <div class="inner-menu">
                         <ul class="menu">
-                            <li><a href="/admin/home" class="active-menu">Trang Chủ</a></li>
-                            <li><a href="/admin/user-management">Quản Lí Người Dùng</a></li>
-                            <li><a href="/admin/post-management">Quản Lí Bài Đăng</a></li>
-                            <li><a href="/admin/comment-management">Quản Lí Bình Luận</a></li>
+                            <li><a href="{{route('admin.home')}}" class="active-menu">Trang Chủ</a></li>
+                            <li><a href="{{route('user.management')}}">Quản Lí Người Dùng</a></li>
+                            <li><a href="{{route('post.management')}}">Quản Lí Bài Đăng</a></li>
+                            <li><a href="{{route('comment.management')}}">Quản Lí Bình Luận</a></li>
                         </ul>
                     </div>
                     <div class="user-dropdown">
                         <div class="dropdown-toggle">
                             <i class="fa-solid fa-user"></i>
-                            <span text="${email}"></span>
+                            <span>{{ $user->full_name}}</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/profile">Quản Lí Cá Nhân</a></li>
-                            <li><form action="/logout" method="post">
-                                <button type="submit">Đăng Xuất</button>
-                            </form></li>
+                            <li><a href="{{route('admin.profile')}}">Quản Lí Cá Nhân</a></li>
+                            <li><a href="{{route ('logout')}}">Đăng Xuất</a></li>
                         </ul>
                     </div>
                     <div class="inner-menu-mb">
                         <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
                         <ul class="menu-mb">
-                            <li><a href="/admin/home" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
-                            <li><a href="/admin/user-management"><i class="fa-solid fa-house"></i>Quản Lí Người Dùng</a></li>
-                            <li><a href="/admin/post-management"><i class="fa-solid fa-house"></i>Quản Lí Bài Đăng</a></li>
-                            <li><a href="/admin/comment-management"><i class="fa-solid fa-house"></i>Quản Lí Bình Luận</a></li>
+                            <li><a href="{{route('admin.home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                            <li><a href="{{route('user.management')}}"><i class="fa-solid fa-house"></i>Quản Lí Người Dùng</a></li>
+                            <li><a href="{{route('post.management')}}"><i class="fa-solid fa-house"></i>Quản Lí Bài Đăng</a></li>
+                            <li><a href="{{route('comment.management')}}"><i class="fa-solid fa-house"></i>Quản Lí Bình Luận</a></li>
                             <li class="item-action">
                                 <a href="{{route('login')}}">Đăng Nhập</a>
-                                <a href="/logout">Đăng Xuất</a>
+                                <a href="{{route('logout')}}">Đăng Xuất</a>
                             </li>
                         </ul>
                     </div>
@@ -82,7 +80,7 @@ html lang="en">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="/image/art2.jpg" alt="ảnh 2">
+                        <img src="/image/art2.png" alt="ảnh 2">
                         <div class="content">
                             <h3 class="title">Vị trí thuận tiện</h3>
                         </div>
@@ -94,7 +92,7 @@ html lang="en">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="/image/art2.jpg" alt="ảnh 4">
+                        <img src="/image/art2.png" alt="ảnh 4">
                         <div class="content">
                             <h3 class="title">Chất lượng và tiện nghi</h3>
                         </div>
@@ -191,32 +189,39 @@ html lang="en">
         <div class="row">
             <div class="col-12">
                 <div class="inner-head">
-                    <h2>Phòng Trọ</h2>
+                    <h2>Bài Đăng</h2>
                 </div>
             </div>
         </div>
         <div class="inner-body" >
             <div class="btn-l-room-1 btn-arrow"><i class="fa-solid fa-arrow-left"></i></div>
             <div class="row carousel-room-1" >
-                <div class="card col-xl-4 col-lg-6 col-12" ="post :${posts}">
-                    <div class="inner-box">
-                        <div class="inner-img" th:if="${post.listImages != null and !post.listImages.isEmpty()}">
-                            <img src="@{'/' + ${post.listImages[0].url}}" alt="Image Description" class="image">
-                        </div>
-                        <p class="inner-title text-center" text="${post.title}"></p>
-                        <div class="inner-location">
-                            <a href="${post.location.link}"
-                               target="_blank">
-                                <i class="fa-solid fa-map-location"></i>
-                                <p text="${post.location.address}"></p>
-                            </a>
-                        </div>
-                        <div class="inner-bot">
-                            <p class="inner-price" text="${post.price}"></p>
-                            <a href="@{/post/detail/{id}(id=${post.id})}" class="btn">Xem Phòng</a>
+                @foreach ($posts as $post)
+                    <div class="card col-xl-4 col-lg-6 col-12">
+                        <div class="inner-box">
+                            @if ($post->listImages && $post->listImages->isNotEmpty())
+                                <div class="inner-img" >
+                                    <img src="{{ asset('storage/' . $post->listImages[0]->url) }}" alt="Post Image" class="image"/>
+                                </div>
+                            @endif
+                            <p class="inner-title text-center">{{ $post->title}}</p>
+                            @if ($post->location && $post->location->link)
+                                <div class="inner-location">
+                                    <a href="{{ $post->location->link }}" target="_blank" class="btn inner-location">
+                                        <i class="fa-solid fa-map-location"></i>
+                                        <p class="line-clamp" style="--line-clamp:1;">{{ $post->location->address }}</p>
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="inner-bot">
+                                <p class="inner-price">
+                                    <span>{{ number_format($post->price, 0, ',', '.') }}</span> VND
+                                </p>
+                                <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="btn">Xem Phòng</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
             <div class="btn-r-room-1 btn-arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
@@ -242,18 +247,20 @@ html lang="en">
         </div>
         <div class="wrapper">
             <div class="row carousel-comments">
-                <div class="card col-xl-4 col-lg-6 col-12" ="comment :${comments}">
-                    <div class="inner-box">
-                        <h2 text="${comment.user.email}"></h2>
-                        <div class="comment-rating">
-                            <span ="i : ${#numbers.sequence(0, 4)}">
-                             <i class="fa-star" th:class="${i < comment.rating ? 'fas fa-star' : 'far fa-star'}"></i>
-                            </span>
+                @foreach($comments as $comment)
+                    <div class="card col-xl-4 col-lg-6 col-12" >
+                        <div class="inner-box" style="height: auto;min-height: 150px;">
+                            <h2>{{$user->full_name}}</h2>
+                            <div class="comment-rating">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="{{ $i < $comment->rating ? 'fas fa-star' : 'far fa-star' }}"></i>
+                                @endfor
+                            </div>
+                            <p class="inner-comment">{{$comment->content}}</p>
+                            <a href="{{ route('post.detail', ['id' => $comment->post_id]) }}" class="btn">Xem Bình Luận</a>
                         </div>
-                        <p class="inner-comment" text="${comment.content}"></p>
-                        <a href="@{/post/detail/{id}(id=${comment.post.id})}" class="btn">Xem Bình Luận</a>
                     </div>
-                </div>
+                @endforeach
             </div>
             <div class="inner-btn">
                 <div class="btn-r btn-arrow"><i class="fa-solid fa-arrow-right btn-right"></i></div>
@@ -334,22 +341,22 @@ html lang="en">
                         TNNA
                     </h2>
                     <p>
-                        <a href="@{/admin/home}">
+                        <a href="{{route('admin.home')}}">
                             Trang chủ
                         </a>
                     </p>
                     <p>
-                        <a href="/admin/user-management">
+                        <a href= "{{route ('user.management')}}">
                             Quản Lí Người Dùng
                         </a>
                     </p>
                     <p>
-                        <a href="/admin/post-management">
+                        <a href="{{route('post.management')}}">
                             Quản Lí Bài Đăng
                         </a>
                     </p>
                     <p>
-                        <a href="/admin/comment-management">
+                        <a href="{{route('comment.management')}}">
                             Quản Lí Bình Luận
                         </a>
                     </p>
@@ -358,7 +365,6 @@ html lang="en">
         </div>
     </div>
 </footer>
-
 <script src="/bootstrap/jquery.slim.min.js"></script>
 <script src="/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="/js/header.js"></script>

@@ -32,21 +32,20 @@
                     @endif
                     <form method="POST" action="{{ route('register') }}" class="form">
                         @csrf
-
                         <label for="fullName">Họ Và Tên</label>
-                        <input type="text" name="full_name" id="full_name" class="form-control" required>
+                        <input type="text" name="full_name" id="full_name" class="form-control">
 
                         <label for="email">Email</label>
-                        <input type="text" name="email" id="email" class="form-control" required >
+                        <input type="text" name="email" id="email" class="form-control" >
 
                         <label for="phone">Phone</label>
-                        <input type="text" name="phone" id="phone" class="form-control" required >
+                        <input type="text" name="phone" id="phone" class="form-control" >
 
                         <label for="password">Mật khẩu</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
+                        <input type="password" name="password" id="password" class="form-control">
 
                         <label for="password_confirmation">Nhập Lại Mật Khẩu</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" >
 
                         <button type="submit" class="btn-register">Đăng Ký</button>
                         <div class="inner-line"></div>

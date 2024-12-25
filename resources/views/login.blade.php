@@ -26,28 +26,31 @@
                 </div>
             </div>
             <div class="col-xl-6 col-md-6 col-lg-12">
-                <div class="inner-form">
+                <div class="inner-form" style="color: #1b1e21">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{ route('login')}}" method="post">
                         @csrf
                         <label for="email">Tên đăng nhập</label>
-                        <input type="text" name="email" id="email" class="form-control" required>
+                        <input type="text" name="email" id="email" class="form-control">
                         <label for="password">Mật khẩu</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
-                        <div class="auth-options">
-                            <div class="remember">
-                                <input type="checkbox" name="remember" id="">
-                                <span>Nhớ mật khẩu</span>
-                            </div>
-                        </div>
+                        <input type="password" name="password" id="password" class="form-control" >
                         <button type="submit">Đăng Nhập</button>
                         <div class="inner-line"></div>
                         <div class="register">
                             <span>Bạn chưa có tài khoản?</span>
-                            <a href="/register" class="">Tạo tại đây</a>
+                            <a href="{{route('register')}}" class="">Tạo tại đây</a>
                         </div>
                     </form>
                     <div>
-                    <a href="/home" class="inner-back">
+                    <a href="{{route('home')}}" class="inner-back">
                         <i class="fa-solid fa-arrow-left"></i>
                     </a>
                     </div>

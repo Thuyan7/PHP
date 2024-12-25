@@ -73,3 +73,121 @@
         flex: 1 1 100%; /* Mỗi bài đăng chiếm toàn bộ chiều rộng trên thiết bị nhỏ hơn */
     }
 }
+
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 50px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 1200px;
+}
+
+
+.search-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+/* Input và select không có viền */
+.search-form .form-group input,
+.search-form .form-group select {
+    padding: 10px;
+    font-size: 14px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    height: 40px;
+}
+
+/* Thẻ input và select khi focus */
+.search-form .form-group input:focus,
+.search-form .form-group select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #053574; /* Màu viền khi focus */
+}
+
+
+/* Thẻ select: Đảm bảo có đủ không gian cho văn bản */
+.search-form .form-group select {
+    padding-left: 12px; /* Điều chỉnh padding cho phần tử select */
+    text-overflow: ellipsis; /* Đảm bảo nội dung dài không bị cắt bớt */
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-form .form-group {
+        width: 100%;
+    }
+
+    .search-form .btn {
+        width: 100%; /* Nút chiếm chiều rộng toàn bộ */
+        margin-top: 10px;
+    }
+}
+
+#main-title {
+    font-size: 32px; /* Kích thước chữ */
+    font-weight: bold; /* Chữ đậm */
+    text-align: center; /* Căn giữa tiêu đề */
+    color: #1b1e21; /* Màu sắc chữ */
+    text-transform: uppercase; /* Chữ in hoa */
+    letter-spacing: 3px; /* Khoảng cách giữa các chữ */
+    margin: 0 auto; /* Căn giữa ngang */
+    position: relative; /* Để áp dụng hiệu ứng */
+    animation: slideIn 1s ease-out; /* Hiệu ứng slide vào */
+    display: block; /* Chuyển đổi thành block để căn giữa */
+}
+
+/* Hiệu ứng khi tiêu đề xuất hiện */
+@keyframes slideIn {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Hiệu ứng hover */
+#main-title:hover {
+    color: #0a5daf; /* Màu chữ khi hover */
+    text-shadow: 2px 2px 8px rgba(30, 144, 255, 0.6); /* Bóng đổ khi hover */
+    transform: scale(1.1); /* Phóng to một chút khi hover */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà khi hover */
+}
+/* Căn giữa thông báo */
+.alert-container {
+    position: fixed; /* Để phần tử này cố định trên màn hình */
+    top: 50%; /* Đặt phần tử vào vị trí giữa chiều dọc */
+    left: 50%; /* Đặt phần tử vào vị trí giữa chiều ngang */
+    transform: translate(-50%, -50%); /* Dịch chuyển phần tử về chính giữa */
+    width: 80%; /* Thiết lập chiều rộng phần tử */
+    max-width: 500px; /* Giới hạn chiều rộng tối đa */
+    z-index: 9999; /* Đảm bảo thông báo nằm trên các phần tử khác */
+}
+
+/* Nếu bạn muốn thông báo có một số khoảng cách và hiệu ứng đẹp */
+.alert {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+

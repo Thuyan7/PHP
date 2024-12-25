@@ -25,16 +25,16 @@
             <div class="col-12">
                 <div class="inner-head">
                     <div class="inner-logo">
-                        <a href="{{route ('user-home')}}">
+                        <a href="{{route ('user.home')}}" >
                             <img src="/image/logo.png" alt="logo">
                         </a>
                     </div>
                     <div class="inner-menu">
                         <ul class="menu">
-                            <li><a href="{{route ('user-home')}}" class="active-menu">Trang Chủ</a></li>
-                            <li><a href="{{route ('introduce')}}">Giới Thiệu</a></li>
-                            <li><a href="{{route('post')}}">Bài Đăng</a></li>
-                            <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
+                            <li><a href="{{route ('user.home')}}" class="active-menu">Trang Chủ</a></li>
+                            <li><a href="{{route ('introduce')}}" class="active-menu">Giới Thiệu</a></li>
+                            <li><a href="{{route('post')}}" class="active-menu">Bài Đăng</a></li>
+                            <li><a href="{{route ('contact')}}" class="active-menu">Liên Hệ</a></li>
                         </ul>
                     </div>
                     <div class="user-dropdown">
@@ -44,15 +44,15 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route ('user-profile')}}">Quản Lí Cá Nhân</a></li>
-                            <li><a href="{{route ('logout')}}">Quản Lí Cá Nhân</a></li>
+                            <li><a href="{{route ('user.profile')}}">Quản Lí Cá Nhân</a></li>
+                            <li><a href="{{route ('logout')}}">Đăng Xuất</a></li>
                         </ul>
                     </div>
 
                     <div class="inner-menu-mb">
                         <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
                         <ul class="menu-mb">
-                            <li><a href="{{route ('user-home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                            <li><a href="{{route ('user.home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
                             <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
                             <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
                             <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img src="/image/art2.jpg" alt="ảnh 2">
+                        <img src="/image/art2.png" alt="ảnh 2">
                         <div class="content">
                             <h3 class="title">Vị trí thuận tiện</h3>
                         </div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <img src="/image/art2.jpg" alt="ảnh 4">
+                        <img src="/image/art2.png" alt="ảnh 4">
                         <div class="content">
                             <h3 class="title">Chất lượng và tiện nghi</h3>
                         </div>
@@ -213,7 +213,7 @@
                             <p class="inner-price">
                                 <span>{{ number_format($post->price, 0, ',', '.') }}</span> VND
                             </p>
-                            <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="btn">Xem Phòng</a>
+                            <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="btn">Xem Bài</a>
                         </div>
                     </div>
                 </div>
@@ -245,7 +245,7 @@
             <div class="row carousel-comments">
                 @foreach($comments as $comment)
                 <div class="card col-xl-4 col-lg-6 col-12" >
-                    <div class="inner-box">
+                    <div class="inner-box" style="height: 200px">
                         <h2>{{$user->full_name}}</h2>
                         <div class="comment-rating">
                             @for ($i = 0; $i < 5; $i++)
@@ -337,7 +337,7 @@
                         TNNA
                     </h2>
                     <p>
-                        <a href="{{route('user-home')}}>
+                        <a href="{{route('user.home')}}>
                             Trang chủ
                         </a>
                     </p>

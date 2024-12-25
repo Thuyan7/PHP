@@ -23,41 +23,52 @@
       <div class="col-12">
         <div class="inner-head">
           <div class="inner-logo">
-            <a href="{{route ('user-home')}}">
+              <a href="{{ Auth::check() ? (Auth::user()->role_id == 1 ? route('user.home') : (Auth::user()->role_id == 2 ? route('admin.home') : route('home'))) : route('home') }}">
               <img src="/image/logo.png" alt="logo">
             </a>
           </div>
           <div class="inner-menu">
             <ul class="menu">
-              <li><a href="{{route ('user-home')}}">Trang Chủ</a></li>
+                <li><a href="{{ Auth::check() ? (Auth::user()->role_id == 1 ? route('user.home') : (Auth::user()->role_id == 2 ? route('admin.home') : route('home'))) : route('home') }}" class="active-menu">Trang Chủ</a></li>
               <li><a href="{{route ('introduce')}}" class="active-menu">Giới Thiệu</a></li>
-              <li><a href="{{route('post')}}">Bài Đăng</a></li>
-              <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
+              <li><a href="{{route('post')}}" class="active-menu">Bài Đăng</a></li>
+              <li><a href="{{route ('contact')}}" class="active-menu">Liên Hệ</a></li>
             </ul>
           </div>
-          <div class="user-dropdown">
-            <div class="dropdown-toggle">
-              <i class="fa-solid fa-user"></i>
-              <span>{{ $user->full_name }}</span>
-              <i class="fa-solid fa-chevron-down"></i>
+            <div class="inner-action">
+                @guest
+                    <a href="{{ route('login') }}" class="btn-action">Đăng Nhập</a>
+                @endguest
             </div>
-            <ul class="dropdown-menu">
-              <li><a href="{{route ('user-profile')}}">Quản Lí Cá Nhân</a></li>
-              <li><form action="/logout" method="post">
-                <button type="submit">Đăng Xuất</button>
-              </form></li>
-            </ul>
-          </div>
-          <div class="inner-menu-mb">
+            @if(Auth::check() && Auth::user()->role_id)
+                <div class="user-dropdown">
+                    <div class="dropdown-toggle">
+                        <i class="fa-solid fa-user"></i>
+                        <span>{{ Auth::user()->full_name ?? '' }}</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ Auth::user()->role_id == 1 ? route('user.profile') : (Auth::user()->role_id == 2 ? route('admin.profile') : '#') }}">
+                                Quản Lí Cá Nhân
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}">Đăng Xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            @endif
+            <div class="inner-menu-mb">
             <div class="menu-mb-icon"><i class="fa-solid fa-bars"></i></div>
             <ul class="menu-mb">
-              <li><a href="{{route ('user-home')}}" class="active-menu"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
+                <li><a href="{{ Auth::check() ? (Auth::user()->role_id == 1 ? route('user.home') : (Auth::user()->role_id == 2 ? route('admin.home') : route('home'))) : route('home') }}"><i class="fa-solid fa-house"></i>Trang Chủ</a></li>
               <li><a href="{{route ('introduce')}}"><i class="fa-solid fa-house"></i>Giới Thiệu</a></li>
               <li><a href="{{route('post')}}"><i class="fa-solid fa-house"></i>Bài Đăng</a></li>
-              <li><a href="{{route ('contact')}}">Liên Hệ</a></li>
+              <li><a href="{{route ('contact')}}"><i class="fa-solid fa-house"></i>Liên Hệ</a></li>
               <li class="item-action">
                 <a href="{{route('login')}}">Đăng Nhập</a>
-                <a href="/logout">Đăng Xuất</a>
+                <a href="{{route('logout')}}">Đăng Xuất</a>
               </li>
             </ul>
           </div>
@@ -197,7 +208,7 @@
               TNNA
             </h2>
             <p>
-              <a href="{{route ('user-home')}}">
+              <a href="{{route ('user.home')}}" >
                 Trang chủ
               </a>
             </p>

@@ -14,8 +14,9 @@ class PostController extends Controller
 {
     public function create()
     {
+        $user = Auth::user();
         $amenities = Amenity::all();
-        return view('create-post', compact('amenities'));
+        return view('create-post', compact('amenities','user'));
     }
 
     public function store(Request $request)
@@ -29,8 +30,21 @@ class PostController extends Controller
             'ward' => 'required|string',
             'district' => 'required|string',
             'city' => 'required|string',
-            'images' => 'nullable|array',
+            'images' => 'required|min:1|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ],[
+            'title.required' => 'Vui lòng nhập tiêu đề.',
+            'title.string' => 'Tiêu đề phải là một chuỗi ký tự.',
+            'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            'price.required' => 'Vui lòng nhập giá.',
+            'price.numeric' => 'Giá phải là một số.',
+            'description.required' => 'Vui lòng nhập mô tả.',
+            'streetAddress.required' => 'Vui lòng nhập địa chỉ chi tiết.',
+            'ward.required' => 'Vui lòng nhập phường/xã.',
+            'district.required' => 'Vui lòng nhập quận/huyện.',
+            'city.required' => 'Vui lòng nhập tỉnh/thành phố.',
+            'images.*.image' => 'Tệp tải lên phải là hình ảnh.',
+            'images.required' => 'Phải tải lên ít nhất một ảnh.',
         ]);
 
 
@@ -77,32 +91,65 @@ class PostController extends Controller
         return $location->id;
     }
 
+    public function showPost()
+    {
+        $posts = Post::with(['listImages', 'location'])
+            ->where('approved', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $user = Auth::user();
+
+        return view('post', compact('posts', 'user'));
+    }
+
     public function showDetailPost($id)
     {
         $post = Post::find($id);
-        $posts = Post::all();
+        $posts = Post::with(['listImages', 'location'])
+            ->where('approved', 1)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
         $user = Auth::user();
-        $comments = Comment::where('approved', 1)->get();
+        $comments = Comment::where('post_id',$id)->get();
         $amenities = Amenity::all();
         return view('postdetail', compact('post','user','amenities','posts','comments'));
     }
 
-    public function deletePost($id)
+    public function search(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thực hiện chức năng này.');
+        $address = $request->input('address');
+        $priceRange = $request->input('priceRange');
+
+        if (!$address && !$priceRange) {
+            return redirect()->route('post');
         }
 
-        $post = Post::find($id);
+        $posts = Post::query()->where('approved', 1);
 
-        if (!$post || $post->user_id !== Auth::id()) {
-            return redirect()->route('profile')->with('error', 'Bạn không có quyền xóa bài đăng này.');
+        if ($address) {
+            $posts->join('locations', 'posts.location_id', '=', 'locations.id')
+                ->where('locations.address', 'like', '%' . $address . '%');  // Tìm kiếm trong bảng locations
         }
 
-        $post->delete();
+        if ($priceRange) {
+            $priceRangeArray = explode('-', $priceRange);
+            $minPrice = $priceRangeArray[0];
+            $maxPrice = $priceRangeArray[1];
 
-        return redirect()->route('profile')->with('success', 'Bài đăng đã được xóa thành công.');
+            if ($maxPrice == 0) {
+                $posts->where('posts.price', '>', $minPrice);
+            } else {
+                $posts->whereBetween('posts.price', [$minPrice, $maxPrice]);
+            }
+        }
+
+        $posts = $posts->get();
+
+        return view('post', compact('posts'));
     }
+
 
 
 
